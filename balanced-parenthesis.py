@@ -24,12 +24,12 @@ closeElements = ["]", "}", ")"]
 class Solution:
     def isValid(self, s):
         open = []
-        for i in s:
-            if i in openElements:
-                open.append(i)
-            elif i in closeElements:
-                pos = closeElements.index(i)
-                if ((len(open) > 0) and (openElements[pos] == open[len(open)-1])):
+        for c in s:
+            if c in openElements:
+                open.append(c)
+            elif c in closeElements:
+                pos = closeElements.index(c)
+                if len(open) > 0 and openElements[pos] == open[-1]:
                     open.pop()
                 else:
                     return False
