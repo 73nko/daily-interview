@@ -23,21 +23,21 @@ closeElements = ["]", "}", ")"]
 
 class Solution:
     def isValid(self, s):
-        open = []
+        stack = []
         for c in s:
             if c in openElements:
-                open.append(c)
+                stack.append(c)
             elif c in closeElements:
-                pos = closeElements.index(c)
-                if len(open) > 0 and openElements[pos] == open[-1]:
-                    open.pop()
-                else:
+                if len(stack) <= 0:
+                    return False
+                # Compares the closing parenthesis to the
+                # corresponding opening parenthesis using
+                # their matching indices. We could also use
+                # a hash map for this.
+                if openElements.index(stack.pop()) != closeElements.index(c):
                     return False
 
-        if len(open) == 0:
-            return True
-        else:
-            return False
+        return len(stack) == 0
 
 
 # Test Program

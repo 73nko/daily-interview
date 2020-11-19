@@ -16,47 +16,28 @@
 
 class Solution:
     def longestPalindrome(self, s):
-        s_leng = len(s)
-        table = [[False for x in range(s_leng)] for y
-                 in range(s_leng)]
+        if s is '':
+            return s
+        self.maxLength = 0
+        self.start = 0
 
-        maxLength = 1
-        i = 0
+        for i in range(len(s)):
+            # Check for odd length palindromes
+            self.expandFromCenter(s, i, i)
+            # Check for even length palindromes
+            self.expandFromCenter(s, i, i+1)
+        return s[self.start:self.start+self.maxLength]
 
-        while (i < s_leng):
-            table[i][i] = True
-            i = i + 1
-
-        start = 0
-        i = 0
-
-        while i < s_leng - 1:
-            if (s[i] == s[i + 1]):
-                table[i][i + 1] = True
-                start = i
-                maxLength = 2
-            i = i + 1
-
-        k = 3
-
-        while k <= s_leng:
-            i = 0
-
-            while i < (s_leng - k + 1):
-                j = i + k - 1
-
-                if (table[i + 1][j - 1] and
-                        s[i] == s[j]):
-                    table[i][j] = True
-
-                    if (k > maxLength):
-                        start = i
-                        maxLength = k
-
-                i = i + 1
-            k = k + 1
-
-        return s[start:start+maxLength]
+    # Helper function to expand a substring around a central character or characters.
+    def expandFromCenter(self, s, low, high):
+        while low > -1 and high < len(s) and s[low] == s[high]:
+            low -= 1
+            high += 1
+        # Check to see if we found a longer palindrome than our current counter.
+        # Adjust maxLength and start index to counteract increment from while loop.
+        if self.maxLength < high-low-1:
+            self.maxLength = high-low-1
+            self.start = low+1
 
 
 # Test program
